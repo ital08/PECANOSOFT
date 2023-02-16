@@ -10,5 +10,6 @@ namespace EmpresaPecanoSueldito.Domain.Entities
         public int DiasLaborados { get; set; }
         public int Faltas { get; set; }
         public int TipodeTrabajador { get; set; }
+        public decimal? Sueldo { get; set; }
     }
 }

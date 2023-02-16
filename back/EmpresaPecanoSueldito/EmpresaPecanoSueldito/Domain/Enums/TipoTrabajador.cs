@@ -1,9 +1,9 @@
 ﻿namespace EmpresaPecanoSueldito.Domain.Enums
 {
-    public enum TipoTrabajador
+    public static class TipoTrabajador
     {
-        Obrero = 0,
-        Supervisor = 1,
-        Gerente = 2
+        public const int Obrero = 0;
+        public const int Supervisor = 1;
+        public const int Gerente = 2;
     }
 }

@@ -23,12 +23,16 @@ namespace EmpresaPecanoSueldito
         public void ConfigureServices(IServiceCollection services)
         {
             // Add Cors
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            services.AddCors(options =>
             {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
+                options.AddPolicy("AllowAnyOrigin",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
 
             services.AddControllers().AddNewtonsoftJson(options =>
             {
@@ -36,7 +40,7 @@ namespace EmpresaPecanoSueldito
                 options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
             });
             services.AddControllers();
-            services.AddMediatR(typeof(Startup),typeof(ExtractDataCSVHandler));
+            services.AddMediatR(typeof(Startup), typeof(ExtractDataCSVHandler));
             services.AddMediatR(typeof(ExtractDataCSVHandler).Assembly);
             AddSwagger(services);
         }
@@ -67,7 +71,7 @@ namespace EmpresaPecanoSueldito
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors();
+            app.UseCors("AllowAnyOrigin");
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
