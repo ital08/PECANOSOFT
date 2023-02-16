@@ -15,15 +15,17 @@ using EmpresaPecanoSueldito.Domain.Enums;
 
 namespace EmpresaPecanoSueldito.Application.DataCSV.Handler
 {
-    public class ExtractDataCSVHandler : IRequestHandler<ExtractDataCSVQuery, IEnumerable<Trabajador>>
+    public class ExtractDataCSVHandler : IRequestHandler<ExtractDataCSVQuery, Paginator>
     {
 
-        public async Task<IEnumerable<Trabajador>> Handle(ExtractDataCSVQuery request, CancellationToken cancellationToken)
+        public async Task<Paginator> Handle(ExtractDataCSVQuery request, CancellationToken cancellationToken)
         {
             try
             {
 
                 var lines = await System.IO.File.ReadAllLinesAsync("data-trabajadores.csv");
+
+                var paginator = new Paginator();
                 var records = new List<Trabajador>();
                 var config = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
@@ -55,7 +57,15 @@ namespace EmpresaPecanoSueldito.Application.DataCSV.Handler
                         item.Sueldo = CalcularSalario(item.TipodeTrabajador, item.HorasLaboradas, item.Faltas);
                     }
                 }
-                return records;
+                paginator.TotalCount = records.Count;
+                if (request.pageIndex != null && request.pageSize != null)
+                {
+                    records = records.Skip((int)(request.pageIndex * (int)request.pageSize)).Take((int)request.pageSize).ToList();
+                }
+                paginator.Trabajadores = records;
+                paginator.PageSize = (int)request.pageSize;
+                paginator.PageIndex = (int)request.pageIndex;
+                return paginator;
             }
             catch (Exception ex)
             {

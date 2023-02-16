@@ -23,9 +23,9 @@ namespace EmpresaPecanoSueldito.Controllers
 
         [HttpGet]
         [Route(ApiRoutes.GetExtractedData)]
-        public async Task<IActionResult> Get([FromQuery] int? tipoTrabajador, [FromQuery] string? dni)
+        public async Task<IActionResult> Get([FromQuery] ExtractDataCSVQuery extractDataCSVQuery)
         {
-            var query = new ExtractDataCSVQuery { tipoTrabajador = tipoTrabajador, dni = dni };
+            var query = extractDataCSVQuery;
             var result = await this._mediator.Send(query);
             return Ok(result);
         }
