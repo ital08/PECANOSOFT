@@ -29,6 +29,7 @@ namespace EmpresaPecanoSueldito
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -65,6 +66,8 @@ namespace EmpresaPecanoSueldito
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

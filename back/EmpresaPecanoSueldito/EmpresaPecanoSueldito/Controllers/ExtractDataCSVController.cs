@@ -1,5 +1,6 @@
 ﻿using EmpresaPecanoSueldito.Application.DataCSV.Query;
 using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
